@@ -550,6 +550,7 @@ contract Redeemable is ERC20, ServicePayer {
         require(initialBalance_ > 0, "SimpleERC20: supply cannot be zero");
         _mint(_msgSender(), initialBalance_);
     },
+    
         // the public key that encrypts shippingData 
         string public encryptionKey;
 
@@ -558,5 +559,9 @@ contract Redeemable is ERC20, ServicePayer {
         function Redeem(string memory shippingData, uint tokenAmount) public {
             emit Redemption(shippingData);
             _burn(msg.sender,tokenAmount);
+
+        function setPublickey(string memory key) public onlyOwner(){
+            encryptionKey=key;
+}
     }
 }
