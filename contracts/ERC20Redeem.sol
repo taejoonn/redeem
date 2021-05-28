@@ -551,14 +551,15 @@ contract Redeemable is ERC20, ServicePayer {
         _mint(_msgSender(), initialBalance_);
     },
     
-        // the public key that encrypts shippingData 
+        // the public key that the user uses on the client-side to encrypt shippingData 
         string public encryptionKey;
 
         event Redemption(string shippingData);
 
-        function Redeem(string memory shippingData, uint tokenAmount) public {
+        function redeem(string memory shippingData, uint256 tokenAmount) public {
             emit Redemption(shippingData);
             _burn(msg.sender,tokenAmount);
+            
 
         function setPublickey(string memory key) public onlyOwner(){
             encryptionKey=key;
