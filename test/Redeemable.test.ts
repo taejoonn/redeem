@@ -1,4 +1,3 @@
-import { ethers } from 'hardhat';
 import { solidity } from 'ethereum-waffle';
 import chai from 'chai';
 import mocha from 'mocha';
@@ -7,6 +6,7 @@ import { Redeemable } from '../typechain/ERC20Redeemable';
 
 chai.use(solidity);
 const { expect } = chai;
+const hre = require("hardhat");
 
 describe('Redeemable', () => {
     let signers: any;
@@ -14,11 +14,11 @@ describe('Redeemable', () => {
     let owner: any;
 
     beforeEach(async () => {
-        signers = await ethers.getSigners();
+        signers = await hre.ethers.getSigners();
         owner = signers[0];
 
 
-        redeemable = await ethers.getContractFactory('ERC20Redeemable', signers[0]);
+        redeemable = await hre.ethers.getContractFactory('ERC20Redeemable', signers[0]);
     
     })
     function findEvent(logs: any, eventName: string) {
@@ -46,6 +46,4 @@ describe('Redeemable', () => {
       it('The encryptionKey string is a valid encryption key', async function () {
           
       })
-})
-
 })
