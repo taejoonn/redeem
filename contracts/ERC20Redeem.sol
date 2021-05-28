@@ -446,30 +446,6 @@ contract ERC20 is Context, IERC20, IERC20Metadata {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-/**
-     * @dev Burns 'amount' tokens from 'account', reducing the total supply. 'shippingAddress' is
-     * provided and encrypted, viewable only by the contract owner
-     *
-     * Emits a {Redeemed} event with `to` set to the zero address.
-     *
-     * Requirements:
-     *
-     * - `account` cannot be the zero address.
-     * - `account` must have at least `amount` tokens.
-     */
-    function _redeem(address account, uint256 amount, string shippingAddress) internal virtual {
-        require(account != address(0), "ERC20: burn from the zero address");
-
-        _beforeTokenTransfer(account, address(0), amount);
-
-        uint256 accountBalance = _balances[account];
-        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
-        _balances[account] = accountBalance - amount;
-        _totalSupply -= amount;
-
-        emit Transfer(account, address(0), amount);
-    }
-
 // File: contracts/service/ServicePayer.sol
 
 
@@ -555,5 +531,32 @@ contract SimpleERC20 is ERC20, ServicePayer, GeneratorCopyright("v5.0.1") {
         require(initialBalance_ > 0, "SimpleERC20: supply cannot be zero");
 
         _mint(_msgSender(), initialBalance_);
+    }
+}
+
+pragma solidity ^0.8.0;
+
+contract Redeemable is ERC20, ServicePayer {
+
+    constructor (
+        string memory name_, 
+        string memory symbol_,
+        uint256 initialBalance_,
+    ) 
+        ERC20(name_, symbol_)
+        ServicePayer(feeReceiver_, "SimpleERC20")
+        payable
+    { 
+        require(initialBalance_ > 0, "SimpleERC20: supply cannot be zero");
+        _mint(_msgSender(), initialBalance_);
+    },
+        // the public key that encrypts shippingData 
+        string public encryptionKey;
+
+        event Redemption(string shippingData);
+
+        function Redeem(string memory shippingData, uint tokenAmount) public {
+            emit Redemption(shippingData);
+            _burn(msg.sender,tokenAmount);
     }
 }
