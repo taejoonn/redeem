@@ -5,11 +5,11 @@ async function main() {
   let signers = await hre.ethers.getSigners();
   let owner = signers[0];
 
-  // const GeneratorFactory = await hre.ethers.getContractFactory("GeneratorCopyright", owner)
-  // const Generator = await GeneratorFactory.deploy("0.8.0");
+  const DummyFactory = await hre.ethers.getContractFactory("Dummy", owner);
+  const Dummy = await DummyFactory.deploy();
 
   const RedeemableFactory = await hre.ethers.getContractFactory('Redeemable', owner);
-  const Redeemable = await RedeemableFactory.deploy("TestToken", "TST", 10000000, '0x0000000000000000000000000000000000000000');
+  const Redeemable = await RedeemableFactory.deploy("TestToken", "TST", 10000000, Dummy.address);
   console.log("Redeemable deployed at: " + Redeemable.address)
 }
 
