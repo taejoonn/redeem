@@ -38,4 +38,14 @@ describe('Redeemable', () => {
       it('The encryptionKey should belong to the user that provided it', async function () {
           
       })
+    
+      it('Users encrypted data is accepted by the redeem function', async function () {
+          
+      })
+    
+      it('The encryptionKey string is a valid encryption key', async function () {
+          
+      })
+})
+
 })
