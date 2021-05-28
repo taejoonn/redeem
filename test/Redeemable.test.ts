@@ -1,27 +1,26 @@
-import { solidity } from 'ethereum-waffle';
-import chai from 'chai';
-import mocha from 'mocha';
+const _chai = require('chai');
+const _mocha = require('mocha');
+const waffle = require('ethereum-waffle');
+const solidity = require('ethereum-waffle').solidity;
+// import {Redeemable} from '../typechain/Redeemable';
 
-import { Redeemable } from '../typechain/ERC20Redeemable';
-
-chai.use(solidity);
-const { expect } = chai;
-const hre = require("hardhat");
+_chai.use(solidity);
+const { expect } = _chai;
 
 describe('Redeemable', () => {
-    let signers: any;
-    let redeemable: Redeemable;
-    let owner: any;
+    let signers;
+    let redeemable;
+    let owner;
 
     beforeEach(async () => {
         signers = await hre.ethers.getSigners();
         owner = signers[0];
 
 
-        redeemable = await hre.ethers.getContractFactory('ERC20Redeemable', signers[0]);
+        redeemable = await hre.ethers.getContractFactory('Redeemable', signers[0]);
     
     })
-    function findEvent(logs: any, eventName: string) {
+    function findEvent(logs, eventName) {
         for (let i = 0; i < logs.length; i++) {
           if (logs[i].event === eventName) {
             return logs[i];

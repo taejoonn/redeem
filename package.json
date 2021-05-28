@@ -1,14 +1,18 @@
 {
   "name": "hardhat-project",
+  "main": "index.js",
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@types/mocha": "^8.2.2",
+    "@typechain/ethers-v5": "^6.0.5",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.2.0",
     "hardhat": "^2.3.0",
-    "ts-node": "^9.1.1"
+    "ts-node": "^9.1.1",
+    "hardhat-typechain": "^0.3.5",
+    "typechain": "^4.0.3"
   },
   "dependencies": {
     "async-test-util": "^1.7.3",
