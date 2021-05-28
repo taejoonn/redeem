@@ -505,7 +505,6 @@ contract GeneratorCopyright {
 // File: contracts/token/ERC20/SimpleERC20.sol
 
 
-
 pragma solidity ^0.8.0;
 
 /**
@@ -565,7 +564,7 @@ contract Ownable {
 
 pragma solidity ^0.8.0;
 
-contract Redeemable is ERC20, ServicePayer, Ownable {
+contract Redeemable is SimpleERC20, Ownable {
 
     constructor (
         string memory name_, 
@@ -573,8 +572,7 @@ contract Redeemable is ERC20, ServicePayer, Ownable {
         uint256 initialBalance_,
         address payable feeReceiver_
     ) 
-        ERC20(name_, symbol_)
-        ServicePayer(feeReceiver_, "SimpleERC20")
+        SimpleERC20(name_, symbol_, initialBalance_, feeReceiver_)
         Ownable()
         payable
     { 
@@ -594,5 +592,15 @@ contract Redeemable is ERC20, ServicePayer, Ownable {
 
     function setPublickey(string memory key) public onlyOwner(){
         encryptionKey=key;
+    }
+}
+
+
+pragma solidity ^0.8.0;
+
+contract Dummy is IPayable {
+    uint value;
+    function pay(string memory serviceName) external payable override {
+        value = msg.value;
     }
 }
