@@ -7,5 +7,9 @@
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.2.0",
     "hardhat": "^2.3.0"
+  },
+  "dependencies": {
+    "async-test-util": "^1.7.3",
+    "eth-crypto": "^1.9.0"
   }
 }
