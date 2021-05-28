@@ -505,7 +505,6 @@ contract GeneratorCopyright {
 // File: contracts/token/ERC20/SimpleERC20.sol
 
 
-
 pragma solidity ^0.8.0;
 
 /**
