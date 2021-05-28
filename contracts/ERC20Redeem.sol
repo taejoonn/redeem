@@ -508,9 +508,6 @@ contract GeneratorCopyright {
 
 pragma solidity ^0.8.0;
 
-
-
-
 /**
  * @title SimpleERC20
  * @author ERC20 Generator (https://vittominacori.github.io/erc20-generator)
@@ -534,35 +531,68 @@ contract SimpleERC20 is ERC20, ServicePayer, GeneratorCopyright("v5.0.1") {
     }
 }
 
+
 pragma solidity ^0.8.0;
 
-contract Redeemable is ERC20, ServicePayer {
+contract Ownable {
+    address public owner;
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    /**
+     * @dev The Ownable constructor sets the original `owner` of the contract to the sender
+     * account.
+     */
+    constructor() {
+        owner = msg.sender;
+    }
+    /**
+     * @dev Throws if called by any account other than the owner.
+     */
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+    /**
+     * @dev Allows the current owner to transfer control of the contract to a newOwner.
+     * @param newOwner The address to transfer ownership to.
+     */
+    function transferOwnership(address newOwner) onlyOwner public {
+        require(newOwner != address(0));
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+}
+
+
+pragma solidity ^0.8.0;
+
+contract Redeemable is ERC20, ServicePayer, Ownable {
 
     constructor (
         string memory name_, 
         string memory symbol_,
         uint256 initialBalance_,
+        address payable feeReceiver_
     ) 
         ERC20(name_, symbol_)
         ServicePayer(feeReceiver_, "SimpleERC20")
+        Ownable()
         payable
     { 
         require(initialBalance_ > 0, "SimpleERC20: supply cannot be zero");
         _mint(_msgSender(), initialBalance_);
-    },
+    }
     
-        // the public key that the user uses on the client-side to encrypt shippingData 
-        string public encryptionKey;
+    // the public key that the user uses on the client-side to encrypt shippingData 
+    string public encryptionKey;
 
-        event Redemption(string shippingData);
+    event Redemption(string shippingData);
 
-        function redeem(string memory shippingData, uint256 tokenAmount) public {
-            emit Redemption(shippingData);
-            _burn(msg.sender,tokenAmount);
-            
+    function redeem(string memory shippingData, uint tokenAmount) public {
+        emit Redemption(shippingData);
+        _burn(msg.sender,tokenAmount);
+    }
 
-        function setPublickey(string memory key) public onlyOwner(){
-            encryptionKey=key;
-}
+    function setPublickey(string memory key) public onlyOwner(){
+        encryptionKey=key;
     }
 }
