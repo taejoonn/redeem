@@ -31,7 +31,21 @@ describe('Redeemable', () => {
         return null;
       }
 
-      it('Test Case 1: TODO', async function () {
+      it('Ensure onlyOwner modifier prohibits all users but the owner to transact with the function', async function () {
           
       })
+    
+      it('The encryptionKey should belong to the user that provided it', async function () {
+          
+      })
+    
+      it('Users encrypted data is accepted by the redeem function', async function () {
+          
+      })
+    
+      it('The encryptionKey string is a valid encryption key', async function () {
+          
+      })
+})
+
 })
